@@ -13,7 +13,9 @@ export const complexityMap: Record<string, number> = {
   SUM: 1,
 };
 
-export const excludedLanguages: string[] = ["thisisatest"];
+export const excludedLanguages: string[] = ["SUM"];
+
+export const excludedExtensionsRegex = "(?i)\\.(job)$"; // insensible à la casse
 
 /**
  * const complexityMap: Record<string, number> = {

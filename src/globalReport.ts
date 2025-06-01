@@ -56,7 +56,7 @@ export async function generateGlobalReport(
     ([client, data]) => {
       const repos = new Set(data.map((d) => d.repo)).size;
       const languages = new Set(data.map((d) => d.language));
-      const lines = data.reduce((sum, d) => sum + d.code, 0);
+      const lines = data.reduce((sum, d) => sum + (d.code ?? 0), 0);
       const complexity = data.reduce((sum, d) => sum + d.complexity, 0);
       return { client, repos, languages, lines, complexity };
     }

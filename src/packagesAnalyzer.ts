@@ -2,13 +2,19 @@ import fs from "fs-extra";
 import path from "path";
 import { exec } from "child_process";
 import { RepoComplexity, ClocResult } from "./types";
-import { complexityMap } from "./complexity";
-import { excludedLanguages } from "./complexity";
+import {
+  excludedLanguages,
+  complexityMap,
+  excludedExtensionsRegex,
+} from "./complexity";
+import { getBinaryComplexity } from "./utils/binaryComplexity";
+import binaryRules from "./utils/binaryRules";
+import { BinaryFileComplexity } from "./types";
 
 function runCloc(projectPath: string): Promise<ClocResult[]> {
   return new Promise((resolve, reject) => {
     exec(
-      `cloc ${projectPath} --json --exclude-dir=node_modules`,
+      `cloc ${projectPath} --json --exclude-dir=node_modules --not-match-f='${excludedExtensionsRegex}'`,
       (err, stdout) => {
         if (err) return reject(err);
         const raw = JSON.parse(stdout);
@@ -56,8 +62,22 @@ export async function analyzePackages(
           };
         });
 
+        const binaryResults = getBinaryComplexity(projectPath, binaryRules).map(
+          (entry: BinaryFileComplexity) => {
+            const { language, sizeInKB } = entry;
+            const factor = complexityMap[language] ?? 1;
+            return {
+              repo: `[local] ${project}`,
+              language,
+              sizeInKB,
+              complexity: sizeInKB * factor,
+              source: "local" as const,
+            };
+          }
+        );
+
         if (!result[client]) result[client] = [];
-        result[client].push(...repoResults);
+        result[client].push(...repoResults, ...binaryResults);
       } catch (error) {
         console.warn(`⚠️ Erreur d'analyse pour ${projectPath}: ${error}`);
       }
