@@ -20,6 +20,7 @@ report-*.pdf
 
 # Dépôts clonés
 repos/
+packages/
 
 # Cache ou fichiers temporaires
 *.tmp

@@ -1,5 +1,5 @@
 export const complexityMap: Record<string, number> = {
-  Java: 3,
+  Java: 1,
   TypeScript: 2,
   JavaScript: 2,
   HTML: 1,
