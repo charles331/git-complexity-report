@@ -1,10 +1,15 @@
-import PDFDocument from 'pdfkit';
-import fs from 'fs';
-import { RepoComplexity } from './types';
+import PDFDocument from "pdfkit";
+import fs from "fs";
+import { RepoComplexity } from "./types";
 
-export function generatePDF(client: string, data: RepoComplexity[]) {
+export function generatePDF(
+  client: string,
+  data: RepoComplexity[],
+  source?: "git" | "local"
+) {
   const doc = new PDFDocument();
-  const filePath = `report-${client}.pdf`;
+  const suffix = source ? `-${source}` : "";
+  const filePath = `report-${client}${suffix}.pdf`;
   doc.pipe(fs.createWriteStream(filePath));
 
   doc.fontSize(20).text(`Complexity Report - ${client}`, { underline: true });
@@ -12,10 +17,12 @@ export function generatePDF(client: string, data: RepoComplexity[]) {
   let total = 0;
   doc.moveDown();
 
-  data.forEach(entry => {
-    doc.fontSize(12).text(
-      `${entry.repo} | ${entry.language} | ${entry.code} lignes | Score: ${entry.complexity}`
-    );
+  data.forEach((entry) => {
+    doc
+      .fontSize(12)
+      .text(
+        `${entry.repo} | ${entry.language} | ${entry.code} lignes | Score: ${entry.complexity}`
+      );
     total += entry.complexity;
   });
 

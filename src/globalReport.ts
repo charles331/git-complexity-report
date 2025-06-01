@@ -82,6 +82,9 @@ export async function generateGlobalReport(
   doc.moveDown();
 
   summaries.forEach((summary) => {
+    const clientData = allData[summary.client];
+    const sources = new Set(clientData.map((d) => d.source ?? "git"));
+    const sourceText = Array.from(sources).join(", ");
     doc
       .fontSize(12)
       .text(
@@ -89,7 +92,7 @@ export async function generateGlobalReport(
           summary.lines
         } lignes, complexité ${summary.complexity} \nLangages : ${Array.from(
           summary.languages
-        ).join(", ")}`
+        ).join(", ")}\n` + `Sources : ${sourceText}`
       )
       .moveDown(0.5);
   });

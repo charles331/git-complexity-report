@@ -13,4 +13,5 @@ export interface RepoComplexity {
   language: string;
   code: number;
   complexity: number;
+  source?: "git" | "local";
 }

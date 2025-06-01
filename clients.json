@@ -7,6 +7,5 @@
   ],
   "vb6": ["git@github.com:charles331/VB6-Sqlite3.git"],
   "Python": ["git@github.com:charles331/PySandBox.git"],
-  "SpringBoot": ["git@github.com:charles331/spring-boot.git"],
   "Angular": ["git@github.com:charles331/angular-zpsaex.git"]
 }
