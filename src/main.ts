@@ -1,15 +1,19 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { ClientRepos } from './types';
+import { ClientRepos,RepoComplexity } from './types';
 import { cloneRepo, runCloc } from './cloc';
 import { analyzeRepo } from './analyzer';
 import { generatePDF } from './pdfGenerator';
+import { generateGlobalReport } from './globalReport';
+
 
 const clientsPath = path.resolve('clients.json');
 const baseDir = path.resolve('repos');
 
 async function main() {
   const clients: ClientRepos = await fs.readJSON(clientsPath);
+  const clientReports: Record<string, RepoComplexity[]> = {};
+
 
   for (const [client, repos] of Object.entries(clients)) {
     const results = [];
@@ -26,7 +30,10 @@ async function main() {
     }
 
     generatePDF(client, results);
+    clientReports[client] = results;
   }
+  generateGlobalReport(clientReports);
+
 }
 
 main().catch(err => console.error('❌ Erreur:', err));
