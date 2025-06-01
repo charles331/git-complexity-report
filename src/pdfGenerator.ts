@@ -1,6 +1,7 @@
 import PDFDocument from "pdfkit";
 import fs from "fs";
 import { RepoComplexity } from "./types";
+import path from "path";
 
 export function generatePDF(
   client: string,
@@ -9,7 +10,7 @@ export function generatePDF(
 ) {
   const doc = new PDFDocument();
   const suffix = source ? `-${source}` : "";
-  const filePath = `report-${client}${suffix}.pdf`;
+  const filePath = path.resolve("generated", `report-${client}${suffix}.pdf`);
   doc.pipe(fs.createWriteStream(filePath));
 
   doc.fontSize(20).text(`Complexity Report - ${client}`, { underline: true });

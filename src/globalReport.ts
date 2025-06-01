@@ -2,6 +2,7 @@ import PDFDocument from "pdfkit";
 import fs from "fs";
 import { ChartJSNodeCanvas } from "chartjs-node-canvas";
 import { RepoComplexity } from "./types";
+import path from "path";
 
 interface ClientSummary {
   client: string;
@@ -61,11 +62,11 @@ export async function generateGlobalReport(
     }
   );
 
-  const chartFile = "chart.png";
+  const chartFile = path.resolve("generated", "chart.png");
   await generateBarChart(summaries, chartFile);
 
   const doc = new PDFDocument({ layout: "landscape" });
-  const output = "report-global.pdf";
+  const output = path.resolve("generated", "report-global.pdf");
   doc.pipe(fs.createWriteStream(output));
 
   doc.fontSize(20).text("Global Complexity Report", { align: "center" });

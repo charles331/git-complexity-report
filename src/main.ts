@@ -11,6 +11,9 @@ const clientsPath = path.resolve("clients.json");
 const baseDir = path.resolve("repos");
 
 async function main() {
+  await fs.ensureDir("generated");
+  await fs.emptyDir("generated");
+
   const clients: ClientRepos = await fs.readJSON(clientsPath);
   const clientReports: Record<string, RepoComplexity[]> = {};
 
@@ -31,6 +34,11 @@ async function main() {
 
     generatePDF(client, results, "git");
     clientReports[client] = results;
+    await fs.writeJSON(
+      path.resolve("generated", `report-${client}-git.json`),
+      results,
+      { spaces: 2 }
+    );
   }
 
   const packageResults = await analyzePackages("packages");
@@ -38,6 +46,13 @@ async function main() {
     if (!clientReports[client]) clientReports[client] = [];
     clientReports[client].push(...results);
     generatePDF(client, results, "local");
+    generatePDF(client, results, "local");
+
+    await fs.writeJSON(
+      path.resolve("generated", `report-${client}-local.json`),
+      results,
+      { spaces: 2 }
+    );
   }
 
   generateGlobalReport(clientReports);
