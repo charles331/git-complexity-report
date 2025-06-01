@@ -1,14 +1,12 @@
-import simpleGit from 'simple-git';
-import { exec } from 'child_process';
-import fs from 'fs-extra';
-import path from 'path';
-import { ClocResult } from './types';
-
+import simpleGit from "simple-git";
+import { exec } from "child_process";
+import fs from "fs-extra";
+import { ClocResult } from "./types";
 
 export async function cloneRepo(url: string, targetDir: string) {
   const git = simpleGit();
   if (!fs.existsSync(targetDir)) {
-    await git.clone(url, targetDir);
+    await git.clone(url, targetDir, ["--depth", "1"]);
   } else {
     await simpleGit(targetDir).pull();
   }
@@ -20,10 +18,10 @@ export function runCloc(dir: string): Promise<ClocResult[]> {
       if (err) return reject(err);
       const raw = JSON.parse(stdout);
       const results = Object.entries(raw)
-        .filter(([lang]) => lang !== 'header')
+        .filter(([lang]) => lang !== "header")
         .map(([language, data]: any) => ({
           language,
-          ...data
+          ...data,
         }));
       resolve(results);
     });
