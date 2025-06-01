@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+
+# TypeScript output
+dist/
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependency lock (si tu utilises yarn)
+yarn.lock
+
+# Reports
+report-*.pdf
+#*.json
+
+# Dépôts clonés
+repos/
+
+# Cache ou fichiers temporaires
+*.tmp
+*.bak
+
+# IDEs
+.vscode/
+.idea/
+*.swp

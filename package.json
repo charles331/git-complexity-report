@@ -1,0 +1,29 @@
+{
+  "name": "git-complexity-report",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "report": "tsc && node dist/main.js",
+    "clean": "rm -rf repos report-*.pdf report-*.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chartjs-node-canvas": "^5.0.0",
+    "cloc": "^2.4.0-cloc",
+    "fs-extra": "^11.3.0",
+    "pdfkit": "^0.17.1",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.15.29",
+    "@types/pdfkit": "^0.13.9",
+    "typescript": "^5.8.3"
+  }
+}

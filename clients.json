@@ -1,0 +1,11 @@
+{
+    "Charles1": [
+      "git@github.com:charles331/quick-status-report.git"
+    ],
+    "prixmateriaux": [
+      "git@github.com:charles331/prixmateriaux-api.git",
+      "git@github.com:charles331/prixmateriauxbe.git",
+      "git@github.com:charles331/docker-scraper.git"
+    ]
+  }
+  
