@@ -27,7 +27,7 @@ async function main() {
 
       await cloneRepo(repoUrl, repoDir);
       const clocData = await runCloc(repoDir);
-      const analyzed = analyzeRepo(repoName, clocData);
+      const analyzed = analyzeRepo(repoName, clocData, repoDir);
       analyzed.forEach((r) => (r.source = "git"));
       results.push(...analyzed);
     }

@@ -5,7 +5,10 @@
     "git@github.com:charles331/prixmateriauxbe.git",
     "git@github.com:charles331/docker-scraper.git"
   ],
-  "vb6": ["git@github.com:charles331/VB6-Sqlite3.git"],
+  "vb6": [
+    "git@github.com:charles331/VB6-Sqlite3.git",
+    "git@github.com:cdhigh/Vb6Tkinter.git"
+  ],
   "Python": ["git@github.com:charles331/PySandBox.git"],
   "Angular": ["git@github.com:charles331/angular-zpsaex.git"]
 }

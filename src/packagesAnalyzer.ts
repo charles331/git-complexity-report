@@ -10,6 +10,8 @@ import {
 import { getBinaryComplexity } from "./utils/binaryComplexity";
 import binaryRules from "./utils/binaryRules";
 import { BinaryFileComplexity } from "./types";
+import { getVB6Complexity } from "./utils/vb6Complexity";
+import { log } from "console";
 
 function runCloc(projectPath: string): Promise<ClocResult[]> {
   return new Promise((resolve, reject) => {
@@ -75,9 +77,31 @@ export async function analyzePackages(
             };
           }
         );
+        log(`Binary results for ${projectPath}:`, binaryResults);
+        if (binaryResults.length === 0) {
+          log(`⚠️ Aucun fichier binaire trouvé dans ${projectPath}`);
+        }
+
+        const vb6Results = getVB6Complexity(projectPath).map((entry) => ({
+          ...entry,
+          repo: `[local] ${project}`,
+          source: "local" as const,
+        }));
+
+        log(`VB6 results for ${projectPath}:`, vb6Results);
+        if (vb6Results.length === 0) {
+          log(`⚠️ Aucun fichier VB6 trouvé dans ${projectPath}`);
+        }
+        if (
+          repoResults.length === 0 &&
+          binaryResults.length === 0 &&
+          vb6Results.length === 0
+        ) {
+          log(`⚠️ Aucun code trouvé dans ${projectPath}`);
+        }
 
         if (!result[client]) result[client] = [];
-        result[client].push(...repoResults, ...binaryResults);
+        result[client].push(...repoResults, ...binaryResults, ...vb6Results);
       } catch (error) {
         console.warn(`⚠️ Erreur d'analyse pour ${projectPath}: ${error}`);
       }
